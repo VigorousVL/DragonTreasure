@@ -29,6 +29,7 @@ Representerar ett individuellt rum i spelet.
 - Lagrar rumsbeskrivningar
 - Håller vilka dörrar som finns i varje riktning
 - Metoder för att sätta och hämta dörrar
+
 Syfte: Att vara navet i spelets värld där varje rum fungerar som ett objekt med sin egen beskrivning och sina egna utgångar.
 
 ------------------------------------------------------------------------
@@ -38,6 +39,7 @@ Syfte: Att vara navet i spelets värld där varje rum fungerar som ett objekt me
 En klass som representerar spelaren.
 - Lagrar spelarens namn
 - Har konstruktor + getter/setter
+
 Syfte: Gör det möjligt att hantera spelarinformation.
 
 ------------------------------------------------------------------------
@@ -47,6 +49,7 @@ Syfte: Gör det möjligt att hantera spelarinformation.
 Hanterar själva spel-logiken och loop.
 - Hanterar navigering mellan rum
 - Spelar upp välkomstmeddelande
+
 Syfte: 
 
 ------------------------------------------------------------------------
@@ -61,6 +64,7 @@ Ansvarar för att:
 - Skapa Dungeon
 - Skapa välkomstmeddelande
 - Skapa spelare
+
 Syfte: 
 
 ------------------------------------------------------------------------
