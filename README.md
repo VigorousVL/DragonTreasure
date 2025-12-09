@@ -18,6 +18,7 @@ Representerar en individuell dörr som förbinder två rum.
 - Har en position (char: n (north), s (south), e (east), w (west))
 - Har information om dörren är låst eller olåst
 - Har en referens till vart dörren leder till
+
 Syfte: Möjliggöra navigering mellan rum och skapa strukturen av dungeonens "väggar".
 
 ------------------------------------------------------------------------
