@@ -39,16 +39,21 @@ Representerar ett individuellt rum i spelet där spelaren kan befinna sig i.
   - 3 = west
 - set-metoder för att sätta dörrar i varje riktning
 - get-metoder för att hämta befintliga dörrar
+- doNarrative() som:
+  - skriver ut rumsbeskrivning
+  - skriver ut vilka dörrar som finns att välja
 
 Syfte: Att vara navet i spelets värld där varje rum fungerar som ett objekt med sin egen beskrivning och sina egna utgångar.
+
+I rummet outside använder spelaren kommandot "i" för att gå in i dungeonen.
 
 ------------------------------------------------------------------------
 
 ### `Player.java`
 
-En klass som representerar spelaren.
-- Lagrar spelarens namn
-- Har konstruktor + getter/setter
+En enkel klass som representerar spelaren genom att:
+- lagra spelarens namn
+Just nu används Player enbart för välkomstmeddelandet, men klassen är öppen för framtida utveckling (inventarier, hälsa, nivåsystem m.m.).
 
 Syfte: Gör det möjligt att hantera spelarinformation.
 
@@ -56,46 +61,64 @@ Syfte: Gör det möjligt att hantera spelarinformation.
 
 ### `Dungeon.java`
 
-Hanterar själva spel-logiken och loop.
-- Hanterar navigering mellan rum
-- Spelar upp välkomstmeddelande
-
-Syfte: 
+Hanterar spelets huvudlogik genom att:
+- hålla reda på alla rum i spelet
+- hålla reda på spelarens aktuella position (currentRoom)
+- hantera alla kommandon
+- navigera mellan rum
+- kontrollera om dörrar är låsta
+- visa berättelserna för rummen via doNarrative() i Room-klassen.
+- avsluta spelet när spelaren skriver "quit".
 
 ------------------------------------------------------------------------
 
 ### `DragonTreasure.java` (Huvudklass)
 
 Ansvarar för att:
-- Starta och avsluta spelet
-- Skapa rum
-- Skapa dörrar
-- Sätta dörrarnas riktning + koppla till rum
-- Skapa Dungeon
-- Skapa välkomstmeddelande
-- Skapa spelare
+- läsa in spelarens namn
+- skapa alla rum
+- skapa alla dörrar
+- koppla samman dörrar och rum
+- skapa Dungeon-objektet
+- sätta ett välkomstmeddelande
+- starta spelet via dungeon.playgame()
+- avsluta spelet genom endGame()
 
-Syfte: 
+Syfte: Vara uppstartspunkten för hela spelet.
 
 ------------------------------------------------------------------------
 
 ## Kommandon
 
-- quit = avslutar spelet
-- n, s, e, w = representerar väderstrecken, används för att välja vilken riktning man vill gå
-- i = kommando för att  gå in i fängelsehålan.
+Nedanstående tabell representerar spelets alla kommandon:
 
-## Spelflödets struktur
+| Kommando | Funktion                                  |
+| -------- | ----------------------------------------- |
+| **n**    | Gå norrut                                 |
+| **s**    | Gå söderut                                |
+| **e**    | Gå österut                                |
+| **w**    | Gå västerut                               |
+| **i**    | Gå in i dungeonen (endast från `outside`) |
+| **quit** | Avsluta spelet                            |
 
-1. asd
-2. asd
-3. asd
-4. Spelet avslutas när spelaren:
-   * Skriver kommandot "quit"
-   * eller når slutmålet
+------------------------------------------------------------------------
+
+## Spelvärldens struktur
+* outside
+* entranceHall
+* echoingPassage
+* alchemistLab
+* swordForge
+* skeletonKeep
+* dragonLair
+* monsterDungeon
+Varje rum har sin egen textbeskrivning i doNarrative().
+
+Dörrar kopplar samman rummen enligt ett fordefinierat nätverk, där vissa dörrar är låsta och inte kan passeras.
 
 ## Antaganden och Designval
 
 ## Körning
-För att starta spelet, kör:
-    Dungeon.main()
+Vid spelstart ombeds spelaren att skriva sitt namn.
+
+Därefter visas välkomstmeddelandet och spelet börjar.
