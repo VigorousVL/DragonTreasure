@@ -116,7 +116,7 @@ Varje rum har sin egen textbeskrivning i doNarrative().
 
 Dörrar kopplar samman rummen enligt ett fordefinierat nätverk, där vissa dörrar är låsta och inte kan passeras.
 
-## Antaganden och Designval
+## Antaganden
 
 ## Körning
 Vid spelstart ombeds spelaren att skriva sitt namn.
