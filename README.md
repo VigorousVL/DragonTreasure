@@ -16,19 +16,29 @@ såsom
 
 Representerar en individuell dörr som förbinder två rum.
 - Har en position (char: n (north), s (south), e (east), w (west))
-- Har information om dörren är låst eller olåst
-- Har en referens till vart dörren leder till
+- Har ett booleanvärde "locked", lagrar information om dörren är låst eller olåst
+- Har en referens till vart dörren leder till (leadsTo)
 
 Syfte: Möjliggöra navigering mellan rum och skapa strukturen av dungeonens "väggar".
+
+Vi valde att inte ha leadsTo i konstruktorn för att separera:
+1. skapandet av dörren
+2. kopplingen av dörren till ett specifikt rum
+Detta ger mer flexibilitet i uppbyggnaden av spellayouten.
 
 ------------------------------------------------------------------------
 
 ### `Room.java`
 
-Representerar ett individuellt rum i spelet.
-- Lagrar rumsbeskrivningar
-- Håller vilka dörrar som finns i varje riktning
-- Metoder för att sätta och hämta dörrar
+Representerar ett individuellt rum i spelet där spelaren kan befinna sig i.
+- Lagrar en rumsbeskrivning (roomDesc)
+- En array av dörrar (Door[4]) där index representerar väderstreck:
+  - 0 = north
+  - 1 = south
+  - 2 = east
+  - 3 = west
+- set-metoder för att sätta dörrar i varje riktning
+- get-metoder för att hämta befintliga dörrar
 
 Syfte: Att vara navet i spelets värld där varje rum fungerar som ett objekt med sin egen beskrivning och sina egna utgångar.
 
