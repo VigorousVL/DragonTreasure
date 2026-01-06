@@ -1,126 +1,189 @@
-
 package dragontreasure;
 
-public class Room { 
-    private String roomDesc; // Beskrivning av rummet
-    private Door [] doors = new Door [4]; // Array som lagrar rummets dörrar
-    
-    
-    //Konstruktor
-    public Room (String roomDesc) {
-        this.roomDesc = roomDesc; 
-        this.doors = new Door[4]; 
-    }
-    
-    
-    public void setNorthDoor (Door door) { 
-        this.doors[0] = door; //North = index 0
-    }
-    
-     public void setSouthDoor (Door door) {
-        this.doors[1] = door; //South = index 1
-    }
-    
-     public void setEastDoor (Door door) {
-        this.doors[2] = door; // East = index 2
-    }
-    
-      public void setWestDoor (Door door) {
-        this.doors[3] = door; //West = index 3
-    }
-   
-    
-      public Door getNorthDoor() { 
-          return this.doors[0]; 
-      }
-      
-      public Door getSouthDoor() {
-         return this.doors[1];
-      }
-      
-      public Door getEastDoor() {
-          return this.doors[2];
-      } 
-      
-     
-      public Door getWestDoor() {
-          return this.doors[3];
-      } 
-      
-   
-      public String getRoomDesc() { 
-          return roomDesc; 
-      }
-      
-     
-    public void doNarrative() { 
-        
-    if (roomDesc.equals("outside")) { 
-        System.out.print("You stand outside of a dungeon. You can open the door and go inside [i]");
-    
-    } 
-    
-    else { 
-        if (roomDesc.equals("entranceHall")) {
-        System.out.printf("%n" + "You step into a vast entrance hall. Cold stone walls rise around you, and flickering candles cast long, shifting shadows that make the room feel alive. ");
-       
-    } else if (roomDesc.equals("echoingPassage")) {
-        System.out.printf("%n" + "Your footsteps echo through the narrow passage as cold stone walls close in around you. Darkness presses in, yet a faint glimmer of light still beckons ahead. ");
-    
-    } else if (roomDesc.equals("crystalGrotto")) {
-        System.out.printf("%n" + "A soft glow fills the grotto as crystals rise from floor to ceiling. Cool, fresh air surrounds you, and a small pond gently ripples in the shimmering light. ");
-    
-    } else if (roomDesc.equals("alchemistLab")) {
-        System.out.printf("%n" + "Shelves packed with dusty tomes and bubbling potions line the room. Warm candlelight flickers over strange tools and cauldrons as the scent of herbs fills the air. ");
-     
-    } else if (roomDesc.equals("chamberOfWhispers")) {
-        System.out.printf("%n" + "The room is pitch dark and unnervingly tight. Soft whispers curl through the air, urging you onward. Something unseen watches from the shadows. ");
-        
-    } else if (roomDesc.equals("swordForge")) {
-        System.out.printf("%n" + "Heat radiates from the glowing forge. A focused swordsmith hammers metal, barely acknowledging you. ");
-        
-    } else if (roomDesc.equals("skeletonKeep")) {
-        System.out.printf("%n" + "Cold air sweeps across piles of bones scattered across the floor, as if tossed aside by something powerful - or recently fed. ");
-    
-    } else if (roomDesc.equals("dragonsLair"))  {
-        System.out.printf("%n" + "Golden light fills the chamber. Coins and jewels spill across the floor. On top of the glittering treasure pile, a dragon is sleeping. " );
-        
-    } else if (roomDesc.equals("monsterDungeon")) {
-        System.out.printf("%n" + "A heavy stillness fills the dungeon. From deep in the dark, two yellow eyes glint - unblinking and far too aware of your presence. ");
-        
-    } else { 
-        System.out.printf("You cannot go there! Try again." + "%n");
-    }
-        
-    //Forts. på doNarrative, skriver ut de dörrar som finns
-    System.out.print("You can go ");
-    boolean hasDoors = false; 
-    
-    if (doors[0] != null){ //om dörr har en northDoor
-        System.out.print("[n]"); //printas [n]
-        hasDoors = true; //boolean hasDoors ändras till true
-    }
-    
-    if (doors[1] != null){ //om dörr har en southDoor
-        System.out.print("[s]"); //printas [s]
-        hasDoors = true; //boolean hasDoors ändras till true
-    }
-    
-    if (doors[2] != null){ //om dörr har en eastDoor
-        System.out.print("[e]"); //printas [e]
-        hasDoors = true; //boolean hasDoors ändras till true
-    } 
-    
-    if (doors[3] != null){ //om dörr har en westDoor
-        System.out.print("[w]"); // printas [w]
-        hasDoors = true; //boolean hasDoors ändras till true
-    }
-    
-    
-    if (!hasDoors) { //om inga dörrar finns efter ovan kontroller, printas "nowhere"
-        System.out.println("nowhere.");
-    }
-}
-    }
-}
+import java.util.Scanner;
 
+/**
+ Room representerar ett rum i dungeon.
+ Ett rum kan innehålla:
+   - en beskrivning
+   - upp till 4 dörrar (n, s, e, w)
+   - 0 eller 1 item
+   - 0 eller 1 monster
+**/
+public class Room {
+
+    // Instansvariabler i klassen Room 
+
+	// Rummets namn
+	private String roomName;
+	
+    // Text som beskriver rummet
+    private String roomDesc;
+
+    // Array med dörrar:
+    // index 0 = north, 1 = south, 2 = east, 3 = west
+    private Door[] doors;
+
+    // Ett rum kan ha max ett item
+    private Item item;
+
+    // Ett rum kan ha max ett monster
+    private Monster monster;
+
+
+    // Konstruktor 
+    public Room(String roomName, String roomDesc) {
+    	this.roomName = roomName;
+        this.roomDesc = roomDesc;
+        this.doors = new Door[4]; // plats för max 4 dörrar
+    }
+
+    // Getters
+    public String getRoomDesc() {
+        return roomDesc;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public Monster getMonster() {
+        return monster;
+    }
+
+    // Setters
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public void setMonster(Monster monster) {
+        this.monster = monster;
+    }
+
+    // Tar bort item från rummet (när spelaren plockar upp det)
+    public Item takeItem() {
+        Item temp = item;
+        item = null;
+        return temp;
+    }
+
+    // Tar bort monster när det dör
+    public void clearMonster() {
+        monster = null;
+    }
+
+    // Dörrar   
+    // För tydlighet skapar vi en metod per riktning
+    public void setNorthDoor(Door door) { doors[0] = door; }
+    public void setSouthDoor(Door door) { doors[1] = door; }
+    public void setEastDoor(Door door)  { doors[2] = door; }
+    public void setWestDoor(Door door)  { doors[3] = door; }
+
+    public Door getNorthDoor() { return doors[0]; }
+    public Door getSouthDoor() { return doors[1]; }
+    public Door getEastDoor()  { return doors[2]; }
+    public Door getWestDoor()  { return doors[3]; }
+
+
+    // Berättar vad som finns i rummet
+    public void doNarrative() {
+        System.out.println();
+        System.out.println("== " + roomName + " ==");
+        System.out.println(roomDesc);
+        
+        // Item
+        if (item != null) {
+            System.out.println("You see an item here: " + item.describe());
+            System.out.println("Type 'take' to pick it up.");
+        }
+
+        // Monster
+        if (monster != null) {
+            System.out.println("A monster is here!");
+            System.out.println(monster.getName() + " (" +
+                    monster.getHealthPoints() + " HP) - " +
+                    monster.getMonsterDesc());
+            System.out.println("Type 'fight' to engage in battle.");
+        }
+
+        // Doors
+        System.out.print("Paths: ");
+        boolean hasDoor = false;
+
+        for (int i = 0; i < doors.length; i++) {
+            if (doors[i] != null) {
+                hasDoor = true;
+                String dir = switch (i) {
+                    case 0 -> "n";
+                    case 1 -> "s";
+                    case 2 -> "e";
+                    case 3 -> "w";
+                    default -> "";
+                };
+
+                if (doors[i].isLocked()) {
+                    System.out.print(dir + "(locked) ");
+                } else {
+                    System.out.print(dir + " ");
+                }
+            }
+        }
+
+        if (!hasDoor) {
+            System.out.print("none");
+        }
+
+        System.out.println();
+        System.out.println("Commands: n s e w | take | fight | inventory | potion | quit");
+    }
+
+    // Strid mellan spelare och monster 
+    public void doBattle(Player player) {
+
+        if (monster == null) return;
+
+        Scanner in = new Scanner(System.in);
+
+        while (monster != null && !monster.isDead() && player.getHealthPoints() > 0) {
+
+            System.out.println();
+            System.out.println("Battle!");
+            System.out.println("Your HP: " + player.getHealthPoints()
+                    + " | Your damage: " + player.getTotalDamage());
+            System.out.println(monster.getName() + " HP: " + monster.getHealthPoints());
+
+            System.out.print("Choose: [a]ttack, [p]otion, [r]un > ");
+            String cmd = in.nextLine().toLowerCase();
+
+            // Spelarens tur
+            if (cmd.equals("a")) {
+                monster.takeDamage(player.getTotalDamage());
+                System.out.println("You attack!");
+
+            } else if (cmd.equals("p")) {
+                boolean used = player.usePotionIfAny();
+                System.out.println(used ? "Potion used." : "No potion available.");
+
+            } else if (cmd.equals("r")) {
+                System.out.println("You run away!");
+                return;
+            } else {
+                System.out.println("Invalid choice.");
+                continue;
+            }
+
+            // Kolla om monstret dog
+            if (monster.isDead()) {
+                System.out.println("You defeated " + monster.getName() + "!");
+                monster = null;
+                return;
+            }
+
+            // Monstrets tur
+            player.takeDamage(monster.getDamage());
+            System.out.println(monster.getName() + " hits you for " +
+                    monster.getDamage() + " damage!");
+        }
+        
+    }
+}

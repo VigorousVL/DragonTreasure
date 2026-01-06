@@ -1,124 +1,118 @@
-# Dragon Treasure
+# 🐉 Dragon Treasure
 
-## Projektbeskrivning
+Ett textbaserat äventyrsspel i **Java** där du utforskar en dungeon, plockar upp föremål, låser upp dörrar och slåss mot monster för att till slut komma åt skatten.
 
-**Dragon Treasure** är ett textbaserat äventyrsspel i Java där spelaren navigerar mellan olika rum med hjälp av kommandon. Syftet med uppgiften är att förstå och tillämpa grundläggande objektorienterad programmering i Java. 
+## 🎯 Mål
+Du vinner spelet när du **plockar upp Treasure** (skatten).  
+Skatten är **vaktad av en drake** – du kan inte ta den förrän monstret i rummet är besegrat.
 
-Programmet använder klasser
-såsom
-`Room`, `Door`, `Player` och `Dungeon`.
+Du förlorar om din **HP når 0** i strid.
 
-------------------------------------------------------------------------
+---
 
-## Klassöversikt
+## 🎮 Så spelar du
 
-### `Door.java`
+När spelet startar:
+1. Du skriver in ditt namn
+2. Du börjar i rummet **Outside**
+3. Varje tur skrivs rumsbeskrivning, eventuella items/monster och vilka vägar som finns
+4. Du skriver ett kommando och spelet fortsätter tills du vinner, dör eller skriver `quit`
 
-Representerar en individuell dörr som förbinder två rum.
-- Har en position (char: n (north), s (south), e (east), w (west))
-- Har ett booleanvärde "locked", lagrar information om dörren är låst eller olåst
-- Har en referens till vart dörren leder till (leadsTo)
+### Kommandon (utforskning)
+- `n` `s` `e` `w` – gå norr/söder/öst/väst
+- `take` – plocka upp item i rummet (om det finns)
+- `inventory` – visa inventory + din HP och skada
+- `potion` – använd en potion (om du har en) även utanför strid
+- `fight` – starta strid om det finns ett monster i rummet
+- `quit` – avsluta spelet
 
-Syfte: Möjliggöra navigering mellan rum och skapa strukturen av dungeonens "väggar".
+> Obs: Om du försöker gå genom en **låst dörr** behöver du en **Key** i din inventory. Har du en nyckel låses dörren upp automatiskt när du försöker gå igenom den.
 
-Vi valde att inte ha leadsTo i konstruktorn för att separera:
-1. skapandet av dörren
-2. kopplingen av dörren till ett specifikt rum
-Detta ger mer flexibilitet i uppbyggnaden av spellayouten.
+---
 
-------------------------------------------------------------------------
+## ⚔️ Stridssystem
 
-### `Room.java`
+När du skriver `fight` i ett rum med monster startar en battle-loop.
 
-Representerar ett individuellt rum i spelet där spelaren kan befinna sig i.
-- Lagrar en rumsbeskrivning (roomDesc)
-- En array av dörrar (Door[4]) där index representerar väderstreck:
-  - 0 = north
-  - 1 = south
-  - 2 = east
-  - 3 = west
-- set-metoder för att sätta dörrar i varje riktning
-- get-metoder för att hämta befintliga dörrar
-- doNarrative() som:
-  - skriver ut rumsbeskrivning
-  - skriver ut vilka dörrar som finns att välja
+I strid väljer du:
+- `[a]` attack – du gör skada baserat på din totala skada
+- `[p]` potion – använder en potion från inventory (förbrukas)
+- `[r]` run – fly från striden (du stannar kvar i rummet)
 
-Syfte: Att vara navet i spelets värld där varje rum fungerar som ett objekt med sin egen beskrivning och sina egna utgångar.
+Monstret attackerar efter din tur (om det fortfarande lever).  
+Striden slutar när du flyr, monstret dör eller du dör.
 
-I rummet outside använder spelaren kommandot "i" för att gå in i dungeonen.
+---
 
-------------------------------------------------------------------------
+## 🎒 Items
 
-### `Player.java`
+Alla föremål ärver från `Item`:
 
-En enkel klass som representerar spelaren genom att:
-- lagra spelarens namn
-Just nu används Player enbart för välkomstmeddelandet, men klassen är öppen för framtida utveckling (inventarier, hälsa, nivåsystem m.m.).
+- **Key**  
+  Används för att låsa upp låsta dörrar (kontrolleras automatiskt vid rörelse).
 
-Syfte: Gör det möjligt att hantera spelarinformation.
+- **Weapon**  
+  Ökar din skada. Exempel: ett svärd kan ge `+2` damage.
 
-------------------------------------------------------------------------
+- **Potion**  
+  Helar dig med ett visst antal HP (men HP kan aldrig bli högre än 10). Förbrukas vid användning.
 
-### `Dungeon.java`
+- **Treasure**  
+  Skatten du behöver ta för att vinna.
 
-Hanterar spelets huvudlogik genom att:
-- hålla reda på alla rum i spelet
-- hålla reda på spelarens aktuella position (currentRoom)
-- hantera alla kommandon
-- navigera mellan rum
-- kontrollera om dörrar är låsta
-- visa berättelserna för rummen via doNarrative() i Room-klassen.
-- avsluta spelet när spelaren skriver "quit".
+---
 
-------------------------------------------------------------------------
+## 👾 Monster
 
-### `DragonTreasure.java` (Huvudklass)
+- **Monster** – grundklass för fiender (namn, HP, damage, beskrivning)
+- **Dragon** – ärver från `Monster` och har fasta stats: **18 HP** och **1 damage**
+- Exempel på vanligt monster i spelet: **Goblin** med **8 HP** och **1 damage**
 
-Ansvarar för att:
-- läsa in spelarens namn
-- skapa alla rum
-- skapa alla dörrar
-- koppla samman dörrar och rum
-- skapa Dungeon-objektet
-- sätta ett välkomstmeddelande
-- starta spelet via dungeon.playgame()
-- avsluta spelet genom endGame()
+---
 
-Syfte: Vara uppstartspunkten för hela spelet.
+## 🧱 Projektstruktur
 
-------------------------------------------------------------------------
+Klasserna ligger i paketet `dragontreasure`:
 
-## Kommandon
+```
+dragontreasure/
+  ├── DragonTreasure.java      (main + setup)
+  ├── Dungeon.java             (spel-loop + kommandon)
+  ├── Room.java                (rum, narrative + battle)
+  ├── Door.java                (dörrar, låsta/olåsta)
+  ├── Player.java              (HP, inventory, damage)
+  ├── Monster.java             (fiender)
+  ├── Dragon.java              (specifikt monster)
+  ├── Item.java                (abstract basklass)
+  ├── Key.java
+  ├── Weapon.java
+  ├── Potion.java
+  └── Treasure.java
+```
 
-Nedanstående tabell representerar spelets alla kommandon:
+---
 
-| Kommando | Funktion                                  |
-| -------- | ----------------------------------------- |
-| **n**    | Gå norrut                                 |
-| **s**    | Gå söderut                                |
-| **e**    | Gå österut                                |
-| **w**    | Gå västerut                               |
-| **i**    | Gå in i dungeonen (endast från `outside`) |
-| **quit** | Avsluta spelet                            |
+## 📝 Klassöversikt (kort)
 
-------------------------------------------------------------------------
+- **DragonTreasure**  
+  Skapar spelare, rum, dörrar, items och monster och startar spelet.
 
-## Spelvärldens struktur
-* outside
-* entranceHall
-* echoingPassage
-* alchemistLab
-* swordForge
-* skeletonKeep
-* dragonLair
-* monsterDungeon
-Varje rum har sin egen textbeskrivning i doNarrative().
+- **Dungeon**  
+  Håller spelets huvudloop: visar rummet (`doNarrative`), tar kommandon, hanterar rörelse, inventory, att ta items och att starta strid.
 
-Dörrar kopplar samman rummen enligt ett fordefinierat nätverk, där vissa dörrar är låsta och inte kan passeras.
+- **Room**  
+  Innehåller beskrivning, upp till 4 dörrar, max 1 item och max 1 monster. Har även stridslogik via `doBattle(Player)`.
 
-## Antaganden
+- **Door**  
+  Har riktning (`n/s/e/w`), kan vara låst och pekar på vilket rum den leder till.
 
-## Körning
-Vid spelstart ombeds spelaren att skriva sitt namn.
+- **Player**  
+  Har namn, HP (start 10), base damage (start 1) och en `ArrayList<Item>` som inventory. Skadan påverkas av vapenbonusar.
 
-Därefter visas välkomstmeddelandet och spelet börjar.
+- **Item** (+ underklasser)  
+  Basklass för alla items. Underklasserna implementerar nyckel, vapen, potion och treasure.
+
+- **Monster** (+ Dragon)  
+  Fiender med HP och damage. `Dragon` är en specialiserad fiende.
+
+---
