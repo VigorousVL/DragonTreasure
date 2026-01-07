@@ -133,14 +133,15 @@ dragontreasure/
   - Varje dörr är enkelriktad. Det innebär att om ett rum kan gå österut till ett annat rum måste en separat väst-dörr skapas i det andra rummet om navigering ska vara möjlig tillbaka.
 
 - **Antaganden kring Room-klassen**  
-  - Ansvarar för beskrivning av rummet, upp till 4 dörrar, upp till 1 item och upp till 1 monster.
-  - Ansvarar för stridslogiken i spelet. 
+  - Ansvarar för beskrivning av rummet, upp till fyra dörrar, upp till ett item och upp till ett monster.
+  - Ansvarar för stridslogiken som sker i rummet.
+  - Tar bort item och monster från rummet när de plockas upp eller besegras.
 
 - **Antaganden kring Dungeon och spel-loopen**  
   - Dungeon styr spel-loop och navigationslogik
   - Spelaren kan bara röra sig i de riktingar som rummet har dörrar till.
   - Om spelaren försöker gå genom en dörr som inte finns, visas ett meddelande och spelaren stannar kvar i samma rum.
-  - Spelet avslutar när spelaren skriver quit, eller när Dungeon anropar metoden endGame() i huvudklassen.
+  - Spelet avslutas när spelaren skriver quit, när spelaren dör, eller när Dungeon anropar metoden endGame() i huvudklassen.
   - Spelet startar alltid i rooms[0], vilket i vår design är rummet “outside”.
 
 - **Antaganden kring huvudklassen DragonTeasure**  
@@ -152,12 +153,15 @@ dragontreasure/
     - Dungeon-instansen
     - Items
     - Monster
-  Därefter startar huvudklassen spelet med dungeon.playGame().
+  - Huvudklassen innehåller ingen spel-logik utan används enbart för setup.
+  - Därefter startar huvudklassen spelet med dungeon.playGame().
 
 - **Antaganden kring Item (+underklasser)** 
   Basklass för alla items. Underklasserna implementerar nyckel, vapen, potion och treasure.
 
 - **Antaganden kring Monster (+ Dragon)**
-  Fiender med HP och damage. `Dragon` är en specialiserad fiende.
+ - Monster innehåller grundläggande logik för att ta skada och avgöra om monstret är dött.
+ - Dragon är ett specifikt monster som ärver från klassen Monster.
+   - Dragon har fasta värden: 18 HP och 1 damage. 
 
 ---
