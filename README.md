@@ -160,8 +160,8 @@ dragontreasure/
   Basklass för alla items. Underklasserna implementerar nyckel, vapen, potion och treasure.
 
 - **Antaganden kring Monster (+ Dragon)**
- - Monster innehåller grundläggande logik för att ta skada och avgöra om monstret är dött.
- - Dragon är ett specifikt monster som ärver från klassen Monster.
-   - Dragon har fasta värden: 18 HP och 1 damage. 
+   - Monster innehåller grundläggande logik för att ta skada och avgöra om monstret är dött.
+   - Dragon är ett specifikt monster som ärver från klassen Monster.
+     - Dragon har fasta värden: 18 HP och 1 damage. 
 
 ---
