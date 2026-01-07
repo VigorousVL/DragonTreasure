@@ -116,3 +116,48 @@ dragontreasure/
   Fiender med HP och damage. `Dragon` är en specialiserad fiende.
 
 ---
+## Antaganden
+
+- **Allmänna antaganden**  
+  - Spelaren befinner sig alltid i exakt ett rum åt gången.
+  - Ett rum kan ha maximalt fyra dörrar (norr, söder, väst eller öst), vilket styr hur
+    rummen kopplas samman. 
+  - Alla rum skapas vid programmets start och kopplas sedan ihop med dörrar.
+  - Vi utgår från att spelet fortsätter tills spelaren skriver “quit” eller tills man tagit skatten.
+
+- **Antaganden kring dörrar**  
+  - En dörr är definierad av:
+      - En riktning (n, s, e, w)
+      - Om den är låst eller olåst.
+      - Vilket rum den leder till.
+  - Varje dörr är enkelriktad. Det innebär att om ett rum kan gå österut till ett annat rum måste en separat väst-dörr skapas i det andra rummet om navigering ska vara möjlig tillbaka.
+
+- **Antaganden kring Room-klassen**  
+  - Ansvarar för beskrivning av rummet, upp till 4 dörrar, upp till 1 item och upp till 1 monster.
+  - Ansvarar för stridslogiken i spelet. 
+
+- **Antaganden kring Dungeon och spel-loopen**  
+  - Dungeon styr spel-loop och navigationslogik
+  - Spelaren kan bara röra sig i de riktingar som rummet har dörrar till.
+  - Om spelaren försöker gå genom en dörr som inte finns, visas ett meddelande och spelaren stannar kvar i samma rum.
+  - Spelet avslutar när spelaren skriver quit, eller när Dungeon anropar metoden endGame() i huvudklassen.
+  - Spelet startar alltid i rooms[0], vilket i vår design är rummet “outside”.
+
+- **Antaganden kring huvudklassen DragonTeasure**  
+  - Huvudklassen ansvarar för att skapa:
+    - Alla rum
+    - Alla dörrar
+    - Alla kopplingar mellan rummen
+    - Spelaren
+    - Dungeon-instansen
+    - Items
+    - Monster
+  Därefter startar huvudklassen spelet med dungeon.playGame().
+
+- **Antaganden kring Item (+underklasser)** 
+  Basklass för alla items. Underklasserna implementerar nyckel, vapen, potion och treasure.
+
+- **Antaganden kring Monster (+ Dragon)**
+  Fiender med HP och damage. `Dragon` är en specialiserad fiende.
+
+---
