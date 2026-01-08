@@ -62,7 +62,7 @@ Alla föremål ärver från `Item`:
 
 ## Projektstruktur
 
-Klasserna ligger i paketet `dragontreasure`:
+Klasserna ligger i paketet dragontreasure:
 
 dragontreasure/
   ├── DragonTreasure.java      (main + setup)
@@ -84,22 +84,22 @@ dragontreasure/
   Skapar spelare, rum, dörrar, items och monster och startar spelet.
 
 - **Dungeon**  
-  Håller spelets huvudloop: visar rummet (`doNarrative`), tar kommandon, hanterar rörelse, inventory, att ta items och att starta strid.
+  Håller spelets huvudloop: visar rummet (doNarrative), tar kommandon, hanterar rörelse, inventory, att ta items och att starta strid.
 
 - **Room**  
-  Innehåller beskrivning, upp till 4 dörrar, max 1 item och max 1 monster. Har även stridslogik via `doBattle(Player)`.
+  Innehåller beskrivning, upp till 4 dörrar, max 1 item och max 1 monster. Har även stridslogik via`doBattle(Player).
 
 - **Door**  
   Har riktning (`n/s/e/w`), kan vara låst och pekar på vilket rum den leder till.
 
 - **Player**  
-  Har namn, HP (start 10), base damage (start 1) och en `ArrayList<Item>` som inventory. Skadan påverkas av vapenbonusar.
+  Har namn, HP (start 10), base damage (start 1) och en ArrayList<Item> som inventory. Skadan påverkas av vapenbonusar.
 
 - **Item** (+ underklasser)  
   Basklass för alla items. Underklasserna implementerar nyckel, vapen, potion och treasure.
 
 - **Monster** (+ Dragon)  
-  Fiender med HP och damage. `Dragon` är en specialiserad fiende.
+  Fiender med HP och damage. Dragon är en specialiserad fiende.
 
 ## Antaganden
 
