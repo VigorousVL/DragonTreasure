@@ -77,7 +77,6 @@ dragontreasure/
   ├── Weapon.java
   ├── Potion.java
   └── Treasure.java
-```
 
 ## Klassöversikt (kort)
 
