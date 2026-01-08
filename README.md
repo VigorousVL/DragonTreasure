@@ -1,16 +1,14 @@
-# 🐉 Dragon Treasure
+# Dragon Treasure
 
 Ett textbaserat äventyrsspel i **Java** där du utforskar en dungeon, plockar upp föremål, låser upp dörrar och slåss mot monster för att till slut komma åt skatten.
 
-## 🎯 Mål
+## Mål
 Du vinner spelet när du **plockar upp Treasure** (skatten).  
 Skatten är **vaktad av en drake** – du kan inte ta den förrän monstret i rummet är besegrat.
 
 Du förlorar om din **HP når 0** i strid.
 
----
-
-## 🎮 Så spelar du
+## Så spelar du
 
 När spelet startar:
 1. Du skriver in ditt namn
@@ -28,9 +26,7 @@ När spelet startar:
 
 > Obs: Om du försöker gå genom en **låst dörr** behöver du en **Key** i din inventory. Har du en nyckel låses dörren upp automatiskt när du försöker gå igenom den.
 
----
-
-## ⚔️ Stridssystem
+## Stridssystem
 
 När du skriver `fight` i ett rum med monster startar en battle-loop.
 
@@ -42,9 +38,7 @@ I strid väljer du:
 Monstret attackerar efter din tur (om det fortfarande lever).  
 Striden slutar när du flyr, monstret dör eller du dör.
 
----
-
-## 🎒 Items
+## Items
 
 Alla föremål ärver från `Item`:
 
@@ -60,21 +54,16 @@ Alla föremål ärver från `Item`:
 - **Treasure**  
   Skatten du behöver ta för att vinna.
 
----
-
-## 👾 Monster
+## Monster
 
 - **Monster** – grundklass för fiender (namn, HP, damage, beskrivning)
 - **Dragon** – ärver från `Monster` och har fasta stats: **18 HP** och **1 damage**
 - Exempel på vanligt monster i spelet: **Goblin** med **8 HP** och **1 damage**
 
----
-
-## 🧱 Projektstruktur
+## Projektstruktur
 
 Klasserna ligger i paketet `dragontreasure`:
 
-```
 dragontreasure/
   ├── DragonTreasure.java      (main + setup)
   ├── Dungeon.java             (spel-loop + kommandon)
@@ -90,9 +79,7 @@ dragontreasure/
   └── Treasure.java
 ```
 
----
-
-## 📝 Klassöversikt (kort)
+## Klassöversikt (kort)
 
 - **DragonTreasure**  
   Skapar spelare, rum, dörrar, items och monster och startar spelet.
@@ -115,7 +102,6 @@ dragontreasure/
 - **Monster** (+ Dragon)  
   Fiender med HP och damage. `Dragon` är en specialiserad fiende.
 
----
 ## Antaganden
 
 - **Allmänna antaganden**  
@@ -156,12 +142,3 @@ dragontreasure/
   - Huvudklassen innehåller ingen spel-logik utan används enbart för setup.
   - Därefter startar huvudklassen spelet med dungeon.playGame().
 
-- **Antaganden kring Item (+underklasser)** 
-  Basklass för alla items. Underklasserna implementerar nyckel, vapen, potion och treasure.
-
-- **Antaganden kring Monster (+ Dragon)**
-   - Monster innehåller grundläggande logik för att ta skada och avgöra om monstret är dött.
-   - Dragon är ett specifikt monster som ärver från klassen Monster.
-     - Dragon har fasta värden: 18 HP och 1 damage. 
-
----
